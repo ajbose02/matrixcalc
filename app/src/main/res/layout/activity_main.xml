@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <Button
+        android:id="@+id/plusCol"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/button_round"
+        android:text="+"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/plusRow"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="50dp"
+        android:background="@drawable/button_round"
+        android:text="+"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/minusCol"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/button_round"
+        android:text="-"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/minusRow"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="100dp"
+        android:background="@drawable/button_round"
+        android:text="-"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <TableLayout
+        android:id="@+id/matrix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editTextNumberSigned5"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:fontFamily="@font/old_standard_tt"
+                android:inputType="numberDecimal"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/editTextNumberSigned6"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:fontFamily="@font/old_standard_tt"
+                android:inputType="numberDecimal"
+                android:textAlignment="center" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editTextNumberSigned7"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:fontFamily="@font/old_standard_tt"
+                android:inputType="numberDecimal"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/editTextNumberSigned8"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:fontFamily="@font/old_standard_tt"
+                android:inputType="numberDecimal"
+                android:textAlignment="center" />
+        </TableRow>
+
+    </TableLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="350dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/reduceButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="REDUCE" />
+
+            <Button
+                android:id="@+id/rankButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="RANK" />
+
+            <Button
+                android:id="@+id/detButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Det" />
+
+            <Button
+                android:id="@+id/clearButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="CLEAR" />
+
+        </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="430dp"
+        android:background="?android:attr/listDivider" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/divider"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <io.github.kexanie.library.MathView
+                android:id="@+id/mathView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:setClickable="true"
+                app:setTextSize="10sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

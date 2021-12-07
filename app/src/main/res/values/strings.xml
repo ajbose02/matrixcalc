@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Matrix Calc</string>
+    <string name="sample_latex">$$
+A_{m,n} =
+\\begin{pmatrix}
+1 &amp; 8 &amp; 9.1 &amp; \\\\
+
+2 &amp; 7 &amp; 10 &amp; \\\\
+
+3  &amp; 6  &amp; 11 &amp; \\\\
+
+4 &amp; 5 &amp; 12 &amp; \\\\
+\\end{pmatrix}
+$$</string>
+</resources>
