@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "592802319848",
+    "project_id": "matrixcalc-2ba92",
+    "storage_bucket": "matrixcalc-2ba92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592802319848:android:f7e1d9b85a471ea8eba85d",
+        "android_client_info": {
+          "package_name": "com.example.matrixcalc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592802319848-0a8f045mfjn8b8uga104m04bvt6o66k3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYj3HKACghULIjJW_23I7-81D44JHGL6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592802319848-0a8f045mfjn8b8uga104m04bvt6o66k3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,13 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.DecimalFormat;
 
 import io.github.kexanie.library.MathView;
@@ -29,15 +35,26 @@ public class MainActivity extends AppCompatActivity {
     Button rankButton;
     Button clearButton;
     Button detButton;
+    Button invButton;
+    Button addButton;
+    Button subtractButton;
+    Button multiplyButton;
+    Button equals;
+    TableLayout matrix2;
     int rows = 2;
     int columns = 2;
     double[][] nums;
+    double[][] nums2;
+    double[][] sumMatrix;
     String operations = "";
     private static DecimalFormat df = new DecimalFormat("0.00");
     String result = "";
     MathView mathView;
     boolean dontShowSteps = false;
     double sign = 1;
+    HorizontalScrollView hScroll;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
 
     @Override
@@ -58,7 +75,18 @@ public class MainActivity extends AppCompatActivity {
         minusRow = findViewById(R.id.minusRow);
         minusCol = findViewById(R.id.minusCol);
         detButton = findViewById(R.id.detButton);
+        invButton = findViewById(R.id.invButton);
+        addButton = findViewById(R.id.addButton);
+        subtractButton = findViewById(R.id.subtractButton);
+        multiplyButton = findViewById(R.id.multiplyButton);
+        equals = findViewById(R.id.equals);
+        TableLayout matrix2 = new TableLayout(MainActivity.this);
 
+        // Write a message to the database
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("message");
+
+        myRef.setValue("Hello, World!");
 
 
         plusRow.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     TableRow row = new TableRow(MainActivity.this);
                     for (int i = 0; i < columns; i++) {
                         EditText cell = new EditText(MainActivity.this);
-                        cell.setWidth(200);
+                        cell.setWidth(180);
                         cell.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         cell.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                         cell.setBackgroundResource(android.R.drawable.edit_text);
@@ -90,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < rows; i++) {
                         TableRow row = (TableRow) matrix.getChildAt(i);
                         EditText cell = new EditText(MainActivity.this);
-                        cell.setWidth(200);
+                        cell.setWidth(180);
                         cell.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         cell.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                         cell.setBackgroundResource(android.R.drawable.edit_text);
@@ -132,6 +160,11 @@ public class MainActivity extends AppCompatActivity {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                enableButtons();
+                if(matrix2.getParent()!=null) { //matrix2 exists, meaning matrix1 DNE
+                    parentLayout.removeView(matrix2);
+                    parentLayout.addView(matrix);
+                }
                 rows = 2;
                 columns = 2;
                 matrix.removeAllViews();
@@ -142,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                     TableRow row = new TableRow(MainActivity.this);
                     for (int j = 0; j < 2; j++) {
                         EditText cell = new EditText(MainActivity.this);
-                        cell.setWidth(200);
+                        cell.setWidth(180);
                         cell.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         cell.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                         cell.setBackgroundResource(android.R.drawable.edit_text);
@@ -179,8 +212,9 @@ public class MainActivity extends AppCompatActivity {
                     result = "\\(Reduction: \\)";
                     makeMatrix();
                     convert();
-                    displayResult();
-                    result += "\\(Rank: " + String.valueOf(countZeroRows()) + "\\)";
+                    displayResult(nums, "M");
+                    int rank = rows - countZeroRows();
+                    result += "\\(Rank: " + String.valueOf(rank) + "\\)";
                     mathView.setText(result);
                 }
                 catch(Exception e){
@@ -211,21 +245,80 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                operations = "";
+                mathView.setText("");
+                makeMatrix();
+                for (int i = 0; i < rows; i++) {
+                    TableRow row = new TableRow(MainActivity.this);
+                    for (int j = 0; j < columns; j++) {
+                        EditText cell = new EditText(MainActivity.this);
+                        cell.setWidth(180);
+                        cell.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                        cell.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        cell.setBackgroundResource(android.R.drawable.edit_text);
+                        cell.setTypeface(typeface);
+                        row.addView(cell);
+                    }
+                    matrix2.addView(row);
+                }
+                TableLayout.LayoutParams params = new TableLayout.LayoutParams(
+                        TableLayout.LayoutParams.WRAP_CONTENT,
+                        TableLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(170, 170, 0, 0);
+                matrix2.setLayoutParams(params);
+
+                if(matrix.getParent()!=null) {
+                    parentLayout.removeView(matrix);
+                    parentLayout.addView(matrix2);
+                }
+                disableButtons();
+            }
+        });
+
+        equals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                makeNums2();
+                addMatrices();
+                displayResult(sumMatrix, "M+N");
+            }
+        });
+
+
+
 
 
 
     }
 
-    public void displayResult(){
+    public void disableButtons(){
+        plusRow.setEnabled(false);
+        plusCol.setEnabled(false);
+        minusRow.setEnabled(false);
+        minusCol.setEnabled(false);
+    }
+
+    public void enableButtons(){
+        plusRow.setEnabled(true);
+        plusCol.setEnabled(true);
+        minusRow.setEnabled(true);
+        minusCol.setEnabled(true);
+    }
+
+    public void displayResult(double[][] n, String name){
         if(!dontShowSteps)
             result += operations;
-        result += "$$ M = \\begin{bmatrix} ";
+        result += "$$ " + name + " = \\begin{bmatrix} ";
         for(int row = 0; row < rows; row++){
             for(int col = 0; col < columns; col++){
-                if(nums[row][col]%1==0)
-                    result += String.valueOf((int)nums[row][col]) + "&amp;";
+                if(n[row][col]%1==0)
+                    result += String.valueOf((int)n[row][col]) + "&amp;";
                 else
-                    result += String.valueOf(df.format(nums[row][col])) + "&amp;";
+                    result += String.valueOf(df.format(n[row][col])) + "&amp;";
             }
             if(row<rows-1)
                 result += "\\\\";
@@ -235,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
         result = result.replaceAll("&amp;\\\\", "\\\\");
         mathView.setText(result);
     }
+
 
 
 
@@ -258,7 +352,39 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(!dontShowSteps)
-            displayResult();
+            displayResult(nums, "M");
+
+    }
+
+    public void makeNums2(){
+        nums2 = new double[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                double num = 0;
+                if(matrix2!=null) {
+                    TableRow row = (TableRow) matrix2.getChildAt(i);
+                    EditText et = (EditText) row.getChildAt(j);
+                    String text = et.getText().toString();
+                    if (!text.equals(""))
+                        num = Double.parseDouble(text);
+                    else {
+                        et.setText("0");
+                        num = 0;
+                    }
+                    nums2[i][j] = num;
+                }
+            }
+        }
+        displayResult(nums2, "N");
+    }
+
+    public void addMatrices(){
+        sumMatrix = new double[rows][columns];
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < columns; j++){
+                sumMatrix[i][j] = nums[i][j] + nums2[i][j];
+            }
+        }
 
     }
 
@@ -296,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if(operations!="") {
                 if(!dontShowSteps)
-                    displayResult();
+                    displayResult(nums, "M");
                 operations = "";
             } //this is the issue! algorithm is just fine.
             else
@@ -354,7 +480,7 @@ public class MainActivity extends AppCompatActivity {
     public double det(){
         operations = "";
         convert();
-        displayResult();
+        displayResult(nums, "M");
         double d = 0;
         int start = 0;
         operations = "$$ \\mathcal{D} = ";
@@ -378,6 +504,7 @@ public class MainActivity extends AppCompatActivity {
         operations += " = " + df.format(d) + " $$ ";
         return d;
     }
+
 
 
 
