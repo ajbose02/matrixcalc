@@ -70,7 +70,8 @@
                 android:ems="10"
                 android:fontFamily="@font/old_standard_tt"
                 android:inputType="numberDecimal"
-                android:textAlignment="center" />
+                android:textAlignment="center">
+            </EditText>
 
             <EditText
                 android:id="@+id/editTextNumberSigned6"
@@ -80,7 +81,8 @@
                 android:ems="10"
                 android:fontFamily="@font/old_standard_tt"
                 android:inputType="numberDecimal"
-                android:textAlignment="center" />
+                android:textAlignment="center">
+            </EditText>
         </TableRow>
 
         <TableRow
@@ -95,7 +97,8 @@
                 android:ems="10"
                 android:fontFamily="@font/old_standard_tt"
                 android:inputType="numberDecimal"
-                android:textAlignment="center" />
+                android:textAlignment="center">
+            </EditText>
 
             <EditText
                 android:id="@+id/editTextNumberSigned8"
@@ -105,24 +108,39 @@
                 android:ems="10"
                 android:fontFamily="@font/old_standard_tt"
                 android:inputType="numberDecimal"
-                android:textAlignment="center" />
+                android:textAlignment="center">
+            </EditText>
         </TableRow>
 
     </TableLayout>
+
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="350dp">
 
         <LinearLayout
             android:id="@+id/buttonGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="350dp"
             android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/clearButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/varela_round"
+                android:text="CLEAR" />
 
             <Button
                 android:id="@+id/reduceButton"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/varela_round"
                 android:text="REDUCE" />
 
             <Button
@@ -131,6 +149,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:fontFamily="@font/varela_round"
                 android:text="RANK" />
 
             <Button
@@ -139,17 +158,56 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="Det" />
+                android:fontFamily="@font/varela_round"
+                android:text="DET" />
 
             <Button
-                android:id="@+id/clearButton"
+                android:id="@+id/invButton"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="CLEAR" />
+                android:fontFamily="@font/varela_round"
+                android:text="INV" />
+
+
+            <Button
+                android:id="@+id/addButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/varela_round"
+                android:text="+" />
+
+            <Button
+                android:id="@+id/subtractButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/varela_round"
+                android:text="-" />
+
+            <Button
+                android:id="@+id/multiplyButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/varela_round"
+                android:text="x" />
+
+            <Button
+                android:id="@+id/equals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:text="=" />
 
         </LinearLayout>
+    </HorizontalScrollView>
 
     <View
         android:id="@+id/divider"
